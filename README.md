@@ -1,4 +1,4 @@
-# Data Structure and Algorithm - Study and Prepration
+# Data Structure and Algorithm - Study and Preparation
 Implementation of common Data Structures and Algorithms
 This repository is for my practice only and please don't expect it to be complete and perfect
 ## Topics covered (or targeted):
