@@ -123,6 +123,11 @@ def inorder_non_recursive(root_node: Node) -> None:
 
 
 def bfs(root_node: Node) -> None:
+    """
+    Breadth first search - also level order traversal
+    :param root_node:
+    :return:
+    """
     print(f"Breadth First Search")
     queue = Queue()
     queue.enqueue(root_node)
@@ -132,6 +137,24 @@ def bfs(root_node: Node) -> None:
             print(current.value, end=" ")
             queue.enqueue(current.left_child)
             queue.enqueue(current.right_child)
+    print()
+
+
+def dfs(root_node: Node) -> None:
+    """
+    Depth first search
+    :param root_node:
+    :return:
+    """
+    print(f"Depth First Search")
+    stack = Stack()
+    stack.push(root_node)
+    while not stack.is_empty():
+        current = stack.pop()
+        if current:
+            print(current.value, end=" ")
+            stack.push(current.right_child)
+            stack.push(current.left_child)
     print()
 
 
@@ -145,4 +168,5 @@ if __name__ == '__main__':
     # inorder(root)
     inorder_non_recursive(root)
     bfs(root)
+    dfs(root)
     # print('PyCharm')
