@@ -53,7 +53,6 @@ def fib(n: int) -> int:
     return current
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     # Iterative
     print(f"fib(5) = {fib(5)}")
@@ -69,5 +68,3 @@ if __name__ == '__main__':
     print(f"fib_dp(50) = {fib_dp(50)}")
     print(f"fib(35) = {fib_rec(35)}")
     # print(f"fib(50) = {fib(50)}")
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
