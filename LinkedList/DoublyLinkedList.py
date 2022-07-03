@@ -28,7 +28,7 @@ class DoublyLinkedList:
         str_rep += "TAIL"
         return str_rep
 
-    def insert_first(self, data: Any) -> None:
+    def insert_first(self, data: Any) -> Node:
         node = Node(data)
         if self.head:
             self.head.prev = node
@@ -37,6 +37,7 @@ class DoublyLinkedList:
         else:
             self.head = node
             self.tail = node
+        return node
 
     def delete_first(self) -> Optional[Node]:
         deleted_node: Node = None
@@ -75,6 +76,28 @@ class DoublyLinkedList:
                 self.head = None
                 self.tail = None
         return deleted_node
+
+    def delete_node(self, node: Node) -> None:
+        """
+        Deletes a node from the list by node address
+        :return:
+        """
+        prev_node = node.prev
+        next_node = node.next
+        if prev_node:
+            # This is not the first node
+            prev_node.next = next_node
+        else:
+            # This is the first node, update the head
+            self.head = next_node
+        if next_node:
+            # This is not the last node
+            next_node.prev = prev_node
+        else:
+            # This is the last node, update the tail
+            self.tail = prev_node
+        node.next = None
+        node.prev = None
 
     def print(self) -> None:
         print(self)
@@ -185,6 +208,24 @@ def test_size():
     print("test_size: successful")
 
 
+def test_delete_node():
+    test_dll = DoublyLinkedList()
+    np1 = test_dll.insert_first(1)
+    np2 = test_dll.insert_first(2)
+    np3 = test_dll.insert_first(3)
+    np4 = test_dll.insert_first(4)
+    assert str(test_dll) == "HEAD <-> 4 <-> 3 <-> 2 <-> 1 <-> TAIL"
+    test_dll.delete_node(np1)
+    assert str(test_dll) == "HEAD <-> 4 <-> 3 <-> 2 <-> TAIL"
+    test_dll.delete_node(np3)
+    assert str(test_dll) == "HEAD <-> 4 <-> 2 <-> TAIL"
+    test_dll.delete_node(np4)
+    assert str(test_dll) == "HEAD <-> 2 <-> TAIL"
+    test_dll.delete_node(np2)
+    assert str(test_dll) == "HEAD <-> TAIL"
+    print("test_delete_node: successful")
+
+
 if __name__ == "__main__":
     print("Doubly Linked List")
     test_insert_first()
@@ -192,3 +233,4 @@ if __name__ == "__main__":
     test_insert_last()
     test_delete_last()
     test_is_empty()
+    test_delete_node()
