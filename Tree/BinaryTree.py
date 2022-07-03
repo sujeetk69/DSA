@@ -6,6 +6,7 @@ class Stack:
     Basic implementation of a Stack data structure with minimal methods as required for Tree algorithms
     Underlying data structure is a python list
     """
+
     def __init__(self):
         """
         Constructor: creates an instance of this class
@@ -44,6 +45,7 @@ class Queue:
     """
     Basic implementation of a Queue data structure with minimal methods as required for Tree algorithms
     """
+
     def __init__(self):
         """
         Constructor: create an instance of Queue
@@ -73,6 +75,7 @@ class Node:
     """
     Implementation of a Binary Tree Node
     """
+
     def __init__(self, data: Any):
         self.value: Any = data
         self.left_child: Node = None
@@ -129,13 +132,16 @@ def bfs(root_node: Node) -> None:
     :return:
     """
     print(f"Breadth First Search")
+    if not root_node:
+        return
     queue = Queue()
     queue.enqueue(root_node)
     while not queue.is_empty():
         current = queue.dequeue()
-        if current:
-            print(current.value, end=" ")
+        print(current.value, end=" ")
+        if current.left_child:
             queue.enqueue(current.left_child)
+        if current.right_child:
             queue.enqueue(current.right_child)
     print()
 
@@ -147,15 +153,71 @@ def dfs(root_node: Node) -> None:
     :return:
     """
     print(f"Depth First Search")
+    if not root_node:
+        # Empty Tree
+        return
     stack = Stack()
     stack.push(root_node)
     while not stack.is_empty():
         current = stack.pop()
-        if current:
-            print(current.value, end=" ")
+        print(current.value, end=" ")
+        if current.right_child:
             stack.push(current.right_child)
+        if current.left_child:
             stack.push(current.left_child)
     print()
+
+
+def dfs_recursive(root_node: Node) -> None:
+    """
+    Recursive DFS of a Binary Tree
+    :param root_node:
+    :return:
+    """
+    # print("Depth First Search - Recursive")
+    if not root_node:
+        return
+    print(root_node.value, end=" ")
+    dfs_recursive(root_node.left_child)
+    dfs_recursive(root_node.right_child)
+
+
+def tree_sum(root_node: Node) -> int:
+    """
+    Returns the total sum of all the node values of the binary tree
+    :param root_node:
+    :return:
+    """
+    if not root_node:
+        return 0
+    return root_node.value + tree_sum(root_node.left_child) + tree_sum(root_node.right_child)
+
+
+def tree_min(root_node: Node) -> int:
+    """
+    Finds and return minimum node value
+    :param root_node:
+    :return:
+    """
+    if not root_node:
+        return
+    minimum = root_node.value
+    left_min = tree_min(root_node.left_child)
+    right_min = tree_min(root_node.right_child)
+    if left_min:
+        minimum = min(minimum, left_min)
+    if right_min:
+        minimum = min(minimum, right_min)
+    return minimum
+
+
+def tree_max_sum_path(root_node: Node) -> int:
+    if root_node is None:
+        return -1000000
+    if root_node.left_child is None and root_node.right_child is None:
+        # This is a leaf node
+        return root_node.value
+    return root_node.value + max(tree_max_sum_path(root_node.left_child), tree_max_sum_path(root_node.right_child))
 
 
 if __name__ == '__main__':
@@ -169,4 +231,7 @@ if __name__ == '__main__':
     inorder_non_recursive(root)
     bfs(root)
     dfs(root)
+    dfs_recursive(root)
+    print(f"tree_sum: actual = {tree_sum(root)}, expected = 15")
+    print(f"tree_min: actual = {tree_min(root)}, expected = 1")
     # print('PyCharm')
